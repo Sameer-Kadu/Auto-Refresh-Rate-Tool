@@ -1,53 +1,81 @@
-# Auto Refresh Rate Tool
+# Auto Refresh Rate Switcher
 
-A lightweight Windows utility that automatically monitors and switches the display refresh rate on your PC.  
-The tool runs in the background and ensures your refresh rate is set as desired, with logging support for troubleshooting.
-
----
-
-## 📂 Files Included
-
-- **AdeptiveRefreshRate.exe** — The main executable program.  
-- **install_AutRefRate.bat** — Installation script that sets up the program for easy access from the command line.
+A native **Windows background application** built in C++ that monitors and automatically adjusts your display refresh rate.  
+It ensures your monitor switches from **144Hz → 60Hz** as needed, making it ideal for users who want a consistent refresh rate across sessions.
 
 ---
 
-## ⚙️ Installation
+## 📌 Overview
+Many Windows systems, especially laptops, sometimes fail to consistently maintain or switch display refresh rates due to driver caching or system limitations.  
 
-1. **Right-click** on `install_AutRefRate.bat` and select **Run as Administrator**.  
-   This script will:
-   - Copy the program to `C:\Program Files\AutoRefreshRate\`
-   - Add this folder to your user `PATH` environment variable
-   - Create a shortcut on your Desktop for quick access
-
-2. Once installation completes, **open a new Command Prompt window** to recognize the updated PATH.
+**Auto Refresh Rate Switcher** solves this by:
+- Monitoring the current refresh rate in real-time  
+- Forcing it to **60Hz** whenever **144Hz** is detected  
+- Eliminating flickering, inconsistencies, or the need for manual switching  
 
 ---
 
-## ▶️ Usage
+## ⚡ How It Works
+- Runs as a native Windows executable — **no extra runtimes required**  
+- Polls the current display refresh rate every **1 second**  
+- If detected at **144Hz**, automatically switches to **60Hz** using Windows API calls  
+- Logs all activity to `C:\RefreshRateAppLog.txt` for auditing and troubleshooting  
 
-Logs activity to: C:\RefreshRateAppLog.txt
+---
 
-### 1. Desktop Shortcut
-Double-click the Auto Refresh Rate Tool shortcut created on your Desktop.
+## 🛠️ Technologies Used
+- **C++** — native Windows performance  
+- **Windows API** — `EnumDisplaySettings`, `ChangeDisplaySettings`  
+- **Batch scripting** — for installer and PATH setup  
+- *(Optional)* DirectX/DXGI APIs — considered for advanced refresh rate detection  
 
-🛑 Stopping the Program
-Open Task Manager and end the AutRefRate.exe process
+---
 
-Or close the program window (if visible)
+## 📥 Installation & Usage
 
-📝 Notes
-Installation requires Administrator permissions to copy files and modify PATH.
+### ✅ Requirements
+- Windows **7 or later**  
+- **Administrator privileges** (to install and change display settings)  
 
-You must open a new Command Prompt after installation to recognize the updated PATH.
+### 🚀 Quick Install
+1. Download the compiled executable and the batch installer script  
+2. Run `install_AutRefRate.bat` as **Administrator**  
+   - Copies the executable to `C:\Program Files\AutoRefreshRate`  
+   - Adds it to your **PATH**  
+   - Creates a **Desktop shortcut**  
+3. Open a new **Command Prompt** and run:
+   ```bash
+   AutRefRate
+**or simply use the Desktop shortcut.**
 
-🔧 Troubleshooting
-If AutRefRate command is not recognized:
+📜 Logging
+The app writes logs to:
 
-Verify you ran the batch file as Administrator
+makefile
+Copy code
+C:\RefreshRateAppLog.txt
+Logs include refresh rate checks and changes for troubleshooting or verification.
 
-Open a new Command Prompt window
+👨‍💻 Development & Contribution
+Developed with Visual Studio and the Windows API
 
-Ensure the folder C:\Program Files\AutoRefreshRate exists and contains AutRefRate.exe
+Contributions are welcome via pull requests
 
-Check the activity log: C:\RefreshRateAppLog.txt
+Please file issues for bugs, feature requests, or improvement ideas
+
+❓ FAQ
+Q: Does this tool require Node.js or Python?
+A: No. It’s a native C++ program with zero external dependencies.
+
+Q: Why can’t this run as a Windows Service?
+A: Windows services run in isolated sessions that prevent direct interaction with graphical hardware.
+This tool runs in user mode for proper access.
+
+Q: How do I uninstall?
+A:
+
+Delete C:\Program Files\AutoRefreshRate
+
+Remove the PATH entry manually (Environment Variables)
+
+Delete the Desktop shortcut
